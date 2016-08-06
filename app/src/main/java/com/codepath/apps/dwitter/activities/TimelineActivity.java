@@ -1,9 +1,13 @@
-package com.codepath.apps.dwitter;
+package com.codepath.apps.dwitter.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
 
+import com.codepath.apps.dwitter.R;
+import com.codepath.apps.dwitter.TweetsArrayAdapter;
+import com.codepath.apps.dwitter.TwitterApplication;
+import com.codepath.apps.dwitter.TwitterClient;
 import com.codepath.apps.dwitter.models.EndlessScrollListener;
 import com.codepath.apps.dwitter.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;

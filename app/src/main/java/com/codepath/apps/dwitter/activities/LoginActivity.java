@@ -1,10 +1,12 @@
-package com.codepath.apps.dwitter;
+package com.codepath.apps.dwitter.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 
+import com.codepath.apps.dwitter.R;
+import com.codepath.apps.dwitter.TwitterClient;
 import com.codepath.oauth.OAuthLoginActionBarActivity;
 
 public class LoginActivity extends OAuthLoginActionBarActivity<TwitterClient> {
