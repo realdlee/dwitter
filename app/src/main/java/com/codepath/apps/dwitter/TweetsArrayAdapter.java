@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Locale;
 
 import cz.msebera.android.httpclient.ParseException;
+import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
 
 /**
  * Created by lee on 8/4/16.
@@ -37,15 +38,17 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
 //        3) find the subview to fill with data
         ImageView ivProfileImage = (ImageView) convertView.findViewById(R.id.ivProfileImage);
         TextView tvUserName = (TextView) convertView.findViewById(R.id.tvUserName);
+        TextView tvScreenName = (TextView) convertView.findViewById(R.id.tvScreenName);
         TextView tvBody = (TextView) convertView.findViewById(R.id.tvBody);
         TextView tvRelativeTimestamp = (TextView) convertView.findViewById(R.id.tvRelativeTimestamp);
 
 //        4) populate data into subview
-        tvUserName.setText(tweet.getUser().getScreenName());
+        tvUserName.setText(tweet.getUser().getName());
+        tvScreenName.setText("@" + tweet.getUser().getScreenName());
         tvBody.setText(tweet.getBody());
         tvRelativeTimestamp.setText(getRelativeTimeAgo(tweet.getCreatedAt()));
         ivProfileImage.setImageResource(android.R.color.transparent);
-        Picasso.with(getContext()).load(tweet.getUser().getProfileImageUrl()).into(ivProfileImage);
+        Picasso.with(getContext()).load(tweet.getUser().getProfileImageUrl()).transform(new RoundedCornersTransformation(4, 4)).into(ivProfileImage);
 //        5) return view to be inserted
         return convertView;
     }
