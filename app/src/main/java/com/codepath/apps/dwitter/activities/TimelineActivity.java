@@ -2,6 +2,7 @@ package com.codepath.apps.dwitter.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.widget.ListView;
 
 import com.codepath.apps.dwitter.R;
@@ -29,6 +30,10 @@ public class TimelineActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         lvTweets = (ListView) findViewById(R.id.lvTweets);
         //create arraylist (data source)
         tweets = new ArrayList<>();
