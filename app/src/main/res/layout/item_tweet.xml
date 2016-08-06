@@ -9,7 +9,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:background="#b92d2d"
+        android:background="#ffffff"
         android:layout_marginRight="10dp"
         android:padding="10dp" />
 
@@ -30,5 +30,14 @@
         android:layout_below="@+id/tvUserName"
         android:layout_toRightOf="@+id/ivProfileImage"
         android:layout_toEndOf="@+id/ivProfileImage" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1 day ago"
+        android:id="@+id/tvRelativeTimestamp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>
