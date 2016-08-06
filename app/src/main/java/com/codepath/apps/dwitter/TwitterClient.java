@@ -2,6 +2,7 @@ package com.codepath.apps.dwitter;
 
 import android.content.Context;
 
+import com.codepath.apps.dwitter.models.Tweet;
 import com.codepath.oauth.OAuthBaseClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -46,6 +47,9 @@ public class TwitterClient extends OAuthBaseClient {
 		String apiUrl = getApiUrl("statuses/user_timeline.json");
 		RequestParams params = new RequestParams();
 		params.put("count", 25);
+		if(Tweet.getMaxId() != 0) {
+			params.put("max_id", Tweet.getMaxId());
+		}
 		params.put("since_id", 1);
 		getClient().get(apiUrl, params, handler);
 	}

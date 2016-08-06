@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
 
+import com.codepath.apps.dwitter.models.EndlessScrollListener;
 import com.codepath.apps.dwitter.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -33,6 +34,14 @@ public class TimelineActivity extends AppCompatActivity {
         lvTweets.setAdapter(aTweets);
         client = TwitterApplication.getRestClient();
         populateTimeline();
+
+        lvTweets.setOnScrollListener(new EndlessScrollListener() {
+            @Override
+            public boolean onLoadMore(int page, int totalItemsCount) {
+                populateTimeline();
+                return true;
+            }
+        });
     }
 
     public void populateTimeline() {

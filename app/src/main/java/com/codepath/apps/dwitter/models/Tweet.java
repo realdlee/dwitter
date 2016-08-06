@@ -33,6 +33,16 @@ public class Tweet {
     private User user;
     private String createdAt;
 
+    public static long getMaxId() {
+        return maxId;
+    }
+
+    public static void setMaxId(long maxId) {
+        Tweet.maxId = maxId;
+    }
+
+    private static long maxId = 0;
+
     //2) deserialize
     //Tweet.fromJson(...) => Tweet
     public static Tweet fromJSON(JSONObject jsonObject) {
@@ -40,6 +50,9 @@ public class Tweet {
         try {
             tweet.body = jsonObject.getString("text");
             tweet.uid = jsonObject.getLong("id");
+            if(Tweet.maxId == 0 || tweet.uid < Tweet.maxId) {
+                Tweet.setMaxId(--tweet.uid);
+            }
             tweet.createdAt = jsonObject.getString("created_at");
             tweet.user = User.fromJSON(jsonObject.getJSONObject("user"));
         } catch (JSONException e) {
