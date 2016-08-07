@@ -17,14 +17,14 @@ Time spent: **6** hours spent in total
 - [x] Required: User can click a “Compose” icon in the Action Bar on the top
   right
 - [x] Required: User can then enter a new tweet and post this to twitter
-- [ ] Required: User is taken back to home timeline with new tweet visible in
+- [x] Required: User is taken back to home timeline with new tweet visible in
   timeline
 
 - [x] Optional: While composing a tweet, user can see a character counter with
   characters remaining for tweet out of 140
 - [x] Optional: Links in tweets are clickable and will launch the web browser
   (see autolink)
-- [ ] Optional: User can refresh tweets timeline by pulling down to refresh (i.e
+- [x] Optional: User can refresh tweets timeline by pulling down to refresh (i.e
   pull-to-refresh)
 - [ ] Optional: User can open the twitter app offline and see last loaded tweets
 - [ ] Optional: User can tap a tweet to display a "detailed" view of that tweet
@@ -35,13 +35,13 @@ Time spent: **6** hours spent in total
 - [ ] Optional: Compose activity is replaced with a modal overlay
 - [ ] Optional: Use Parcelable instead of Serializable using the popular
   Parceler library.
-- [ ] Optional: Apply the popular Butterknife annotation library to reduce view
+- [x] Optional: Apply the popular Butterknife annotation library to reduce view
   boilerplate.
-- [ ] Optional: Leverage RecyclerView as a replacement for the ListView and
+- [x] Optional: Leverage RecyclerView as a replacement for the ListView and
   ArrayAdapter for all lists of tweets.
 - [x] Optional: Move the "Compose" action to a FloatingActionButton instead of
   on the AppBar.
-- [ ] Optional: Replace all icon drawables and other static image assets with
+- [x] Optional: Replace all icon drawables and other static image assets with
   vector drawables where appropriate.
 - [ ] Optional: Leverage the data binding support module to bind data into one
   or more activity or fragment layout templates.
