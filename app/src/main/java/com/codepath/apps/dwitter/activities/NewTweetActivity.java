@@ -21,25 +21,21 @@ import butterknife.OnClick;
 public class NewTweetActivity extends AppCompatActivity {
     @BindView(R.id.etNewTweet) EditText etNewTweet;
     @BindView(R.id.tvCharactersRemaining) TextView tvCharactersRemaining;
-    @BindView(R.id.toolbar) Toolbar toolbar;
     Integer MAX_BODY_LENGTH = 160;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_tweet);
+        setupToolbar();
         ButterKnife.bind(this);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         etNewTweet.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
 
             @Override
@@ -48,6 +44,15 @@ public class NewTweetActivity extends AppCompatActivity {
                 tvCharactersRemaining.setText(charactersRemaining);
             }
         });
+    }
+
+    public void setupToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        TextView mTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
+        mTitle.setText(R.string.toolbarNewTweet);
     }
 
     @Override

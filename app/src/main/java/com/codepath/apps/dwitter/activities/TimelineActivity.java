@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codepath.apps.dwitter.R;
@@ -25,7 +26,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import butterknife.BindView;
 import cz.msebera.android.httpclient.Header;
 
 public class TimelineActivity extends AppCompatActivity {
@@ -33,7 +33,6 @@ public class TimelineActivity extends AppCompatActivity {
     private ArrayList<Tweet> tweets;
     private TweetsArrayAdapter aTweets;
     SwipeRefreshLayout swipeContainer;
-    @BindView(R.id.toolbar) Toolbar toolbar;
     ListView lvTweets;
 
     private final int REQUEST_CODE = 20;
@@ -42,8 +41,7 @@ public class TimelineActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
-
-        setSupportActionBar(toolbar);
+        setupToolbar();
         lvTweets = (ListView) findViewById(R.id.lvTweets);
         //create arraylist (data source)
         tweets = new ArrayList<>();
@@ -56,6 +54,14 @@ public class TimelineActivity extends AppCompatActivity {
 
         setupEndlessScroll();
         setupSwipeRefresh();
+    }
+
+    public void setupToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        TextView mTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
+        mTitle.setText(R.string.toolbarTimeline);
     }
 
     public void setupEndlessScroll() {
