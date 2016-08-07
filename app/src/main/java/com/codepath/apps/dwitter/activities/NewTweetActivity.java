@@ -1,7 +1,9 @@
 package com.codepath.apps.dwitter.activities;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -19,8 +21,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class NewTweetActivity extends AppCompatActivity {
-    @BindView(R.id.etNewTweet) EditText etNewTweet;
-    @BindView(R.id.tvCharactersRemaining) TextView tvCharactersRemaining;
+    @BindView(R.id.etNewTweet)
+    EditText etNewTweet;
+    @BindView(R.id.tvCharactersRemaining)
+    TextView tvCharactersRemaining;
     Integer MAX_BODY_LENGTH = 160;
 
     @Override
@@ -40,8 +44,13 @@ public class NewTweetActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                String charactersRemaining = Integer.toString(MAX_BODY_LENGTH - editable.toString().length());
-                tvCharactersRemaining.setText(charactersRemaining);
+                int charRemaining = MAX_BODY_LENGTH - editable.toString().length();
+                if (charRemaining == 0) {
+                    tvCharactersRemaining.setTextColor(Color.RED);
+                } else if (charRemaining <= 10) {
+                    tvCharactersRemaining.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
+                }
+                tvCharactersRemaining.setText(Integer.toString(charRemaining));
             }
         });
     }
@@ -68,7 +77,7 @@ public class NewTweetActivity extends AppCompatActivity {
 
     @OnClick(R.id.btnSubmit)
     public void submitTweet(View view) {
-        if(etNewTweet.length() == 0) {
+        if (etNewTweet.length() == 0) {
             Toast.makeText(this, "Please type a tweet!", Toast.LENGTH_SHORT).show();
         } else if (etNewTweet.length() > 160) {
             Toast.makeText(this, "Your tweet is over the maximum 160 characters allowed.", Toast.LENGTH_SHORT).show();
