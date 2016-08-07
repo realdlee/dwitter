@@ -26,28 +26,41 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
         super(context, android.R.layout.simple_list_item_1, tweets);
     }
 
+    private static class ViewHolder {
+        TextView tvUserName;
+        ImageView ivProfileImage;
+        TextView tvScreenName;
+        TextView tvBody;
+        TextView tvRelativeTimestamp;
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 //        1) get tweet
         Tweet tweet = getItem(position);
 //        2) find/inflate the template
-        if(convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_tweet, parent, false);
-        }
+        ViewHolder viewHolder;
 //        3) find the subview to fill with data
-        ImageView ivProfileImage = (ImageView) convertView.findViewById(R.id.ivProfileImage);
-        TextView tvUserName = (TextView) convertView.findViewById(R.id.tvUserName);
-        TextView tvScreenName = (TextView) convertView.findViewById(R.id.tvScreenName);
-        TextView tvBody = (TextView) convertView.findViewById(R.id.tvBody);
-        TextView tvRelativeTimestamp = (TextView) convertView.findViewById(R.id.tvRelativeTimestamp);
+        if(convertView == null) {
+            viewHolder = new ViewHolder();
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_tweet, parent, false);
+            viewHolder.tvBody = (TextView) convertView.findViewById(R.id.tvBody);
+            viewHolder.tvUserName = (TextView) convertView.findViewById(R.id.tvUserName);
+            viewHolder.tvScreenName = (TextView) convertView.findViewById(R.id.tvScreenName);
+            viewHolder.tvRelativeTimestamp = (TextView) convertView.findViewById(R.id.tvRelativeTimestamp);
+            viewHolder.ivProfileImage = (ImageView) convertView.findViewById(R.id.ivProfileImage);
+            convertView.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) convertView.getTag();
+        }
 
 //        4) populate data into subview
-        tvUserName.setText(tweet.getUser().getName());
-        tvScreenName.setText("@" + tweet.getUser().getScreenName());
-        tvBody.setText(tweet.getBody());
-        tvRelativeTimestamp.setText(getRelativeTimeAgo(tweet.getCreatedAt()));
-        ivProfileImage.setImageResource(android.R.color.transparent);
-        Glide.with(getContext()).load(tweet.getUser().getProfileImageUrl()).into(ivProfileImage);
+        viewHolder.tvUserName.setText(tweet.getUser().getName());
+        viewHolder.tvScreenName.setText("@" + tweet.getUser().getScreenName());
+        viewHolder.tvBody.setText(tweet.getBody());
+        viewHolder.tvRelativeTimestamp.setText(getRelativeTimeAgo(tweet.getCreatedAt()));
+        viewHolder.ivProfileImage.setImageResource(android.R.color.transparent);
+        Glide.with(getContext()).load(tweet.getUser().getProfileImageUrl()).into(viewHolder.ivProfileImage);
 //        5) return view to be inserted
         return convertView;
     }
