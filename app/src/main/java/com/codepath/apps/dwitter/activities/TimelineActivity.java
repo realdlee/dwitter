@@ -12,7 +12,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.codepath.apps.dwitter.R;
 import com.codepath.apps.dwitter.TweetsArrayAdapter;
@@ -126,12 +125,13 @@ public class TimelineActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
             String newBody = data.getStringExtra("body");
-            Toast.makeText(this, newBody, Toast.LENGTH_SHORT).show();
             client.createTweet(newBody, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                    Tweet newTweet = new Tweet();
-
+                    Tweet newTweet = Tweet.fromJSON(response);
+                    tweets.add(0, newTweet);
+                    aTweets.notifyItemInserted(0);
+                    rvTweets.scrollToPosition(0);
                     super.onSuccess(statusCode, headers, response);
                 }
 
