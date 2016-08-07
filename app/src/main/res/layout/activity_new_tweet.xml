@@ -13,6 +13,7 @@
         android:inputType="textMultiLine"
         android:hint="@string/etNewTweetHint"
         android:ems="10"
+        android:maxLength="160"
         android:id="@+id/etNewTweet"
         android:layout_below="@+id/toolbar"
         android:layout_alignLeft="@+id/toolbar"
