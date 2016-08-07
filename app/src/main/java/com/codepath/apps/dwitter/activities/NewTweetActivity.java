@@ -14,21 +14,23 @@ import android.widget.Toast;
 
 import com.codepath.apps.dwitter.R;
 
-public class NewTweetActivity extends AppCompatActivity {
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-    EditText etNewTweet;
-    TextView tvCharactersRemaining;
+public class NewTweetActivity extends AppCompatActivity {
+    @BindView(R.id.etNewTweet) EditText etNewTweet;
+    @BindView(R.id.tvCharactersRemaining) TextView tvCharactersRemaining;
+    @BindView(R.id.toolbar) Toolbar toolbar;
     Integer MAX_BODY_LENGTH = 160;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_tweet);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        etNewTweet = (EditText) findViewById(R.id.etNewTweet);
-        tvCharactersRemaining = (TextView) findViewById(R.id.tvCharactersRemaining);
         etNewTweet.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -51,16 +53,15 @@ public class NewTweetActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            // This is the up button
             case android.R.id.home:
                 finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
-
     }
 
+    @OnClick(R.id.btnSubmit)
     public void submitTweet(View view) {
         if(etNewTweet.length() == 0) {
             Toast.makeText(this, "Please type a tweet!", Toast.LENGTH_SHORT).show();

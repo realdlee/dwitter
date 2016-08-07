@@ -25,14 +25,16 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
 import cz.msebera.android.httpclient.Header;
 
 public class TimelineActivity extends AppCompatActivity {
     private TwitterClient client;
     private ArrayList<Tweet> tweets;
     private TweetsArrayAdapter aTweets;
-    private ListView lvTweets;
-    private SwipeRefreshLayout swipeContainer;
+    SwipeRefreshLayout swipeContainer;
+    @BindView(R.id.toolbar) Toolbar toolbar;
+    ListView lvTweets;
 
     private final int REQUEST_CODE = 20;
 
@@ -41,9 +43,7 @@ public class TimelineActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         lvTweets = (ListView) findViewById(R.id.lvTweets);
         //create arraylist (data source)
         tweets = new ArrayList<>();
@@ -59,6 +59,7 @@ public class TimelineActivity extends AppCompatActivity {
     }
 
     public void setupEndlessScroll() {
+        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
         lvTweets.setOnScrollListener(new EndlessScrollListener() {
             @Override
             public boolean onLoadMore(int page, int totalItemsCount) {
@@ -69,7 +70,6 @@ public class TimelineActivity extends AppCompatActivity {
     }
 
     public void setupSwipeRefresh() {
-        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -84,7 +84,6 @@ public class TimelineActivity extends AppCompatActivity {
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
-
     }
 
     public void populateTimeline() {
