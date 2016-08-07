@@ -4,12 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,7 +18,6 @@ import com.codepath.apps.dwitter.R;
 import com.codepath.apps.dwitter.TweetsArrayAdapter;
 import com.codepath.apps.dwitter.TwitterApplication;
 import com.codepath.apps.dwitter.TwitterClient;
-import com.codepath.apps.dwitter.models.EndlessScrollListener;
 import com.codepath.apps.dwitter.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -33,7 +33,7 @@ public class TimelineActivity extends AppCompatActivity {
     private ArrayList<Tweet> tweets;
     private TweetsArrayAdapter aTweets;
     SwipeRefreshLayout swipeContainer;
-    ListView lvTweets;
+    RecyclerView rvTweets;
 
     private final int REQUEST_CODE = 20;
 
@@ -42,13 +42,16 @@ public class TimelineActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
         setupToolbar();
-        lvTweets = (ListView) findViewById(R.id.lvTweets);
+        rvTweets = (RecyclerView) findViewById(R.id.rvTweets);
         //create arraylist (data source)
         tweets = new ArrayList<>();
         //construct the adapter from data source
         aTweets = new TweetsArrayAdapter(this, tweets);
         //connect adapter to list view
-        lvTweets.setAdapter(aTweets);
+        rvTweets.setAdapter(aTweets);
+
+        rvTweets.setLayoutManager(new LinearLayoutManager(this));
+
         client = TwitterApplication.getRestClient();
         populateTimeline();
 
@@ -66,20 +69,21 @@ public class TimelineActivity extends AppCompatActivity {
 
     public void setupEndlessScroll() {
         swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
-        lvTweets.setOnScrollListener(new EndlessScrollListener() {
-            @Override
-            public boolean onLoadMore(int page, int totalItemsCount) {
-                populateTimeline();
-                return true;
-            }
-        });
+//        rvTweets.setOnScrollListener(new EndlessScrollListener() {
+//            @Override
+//            public boolean onLoadMore(int page, int totalItemsCount) {
+//                populateTimeline();
+//                return true;
+//            }
+//        });
     }
 
     public void setupSwipeRefresh() {
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                aTweets.clear();
+                tweets.clear();
+                aTweets.notifyDataSetChanged();
                 Tweet.resetMaxId();
                 populateTimeline();
                 swipeContainer.setRefreshing(false);
@@ -96,7 +100,8 @@ public class TimelineActivity extends AppCompatActivity {
         client.getHomeTimeline(new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                aTweets.addAll(Tweet.fromJSONArray(response));
+                tweets.addAll(Tweet.fromJSONArray(response));
+                aTweets.notifyDataSetChanged();
                 super.onSuccess(statusCode, headers, response);
             }
 
