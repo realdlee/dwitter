@@ -17,6 +17,7 @@ import com.codepath.apps.dwitter.R;
 import com.codepath.apps.dwitter.TweetsArrayAdapter;
 import com.codepath.apps.dwitter.TwitterApplication;
 import com.codepath.apps.dwitter.TwitterClient;
+import com.codepath.apps.dwitter.models.EndlessRecyclerViewScrollListener;
 import com.codepath.apps.dwitter.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -48,13 +49,13 @@ public class TimelineActivity extends AppCompatActivity {
         aTweets = new TweetsArrayAdapter(this, tweets);
         //connect adapter to list view
         rvTweets.setAdapter(aTweets);
-
-        rvTweets.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        rvTweets.setLayoutManager(linearLayoutManager);
 
         client = TwitterApplication.getRestClient();
         populateTimeline();
 
-        setupEndlessScroll();
+        setupEndlessScroll(linearLayoutManager);
         setupSwipeRefresh();
     }
 
@@ -66,15 +67,15 @@ public class TimelineActivity extends AppCompatActivity {
         mTitle.setText(R.string.toolbarTimeline);
     }
 
-    public void setupEndlessScroll() {
+    public void setupEndlessScroll(LinearLayoutManager linearLayoutManager) {
         swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
-//        rvTweets.setOnScrollListener(new EndlessScrollListener() {
-//            @Override
-//            public boolean onLoadMore(int page, int totalItemsCount) {
-//                populateTimeline();
-//                return true;
-//            }
-//        });
+
+        rvTweets.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount) {
+                populateTimeline();
+            }
+        });
     }
 
     public void setupSwipeRefresh() {
