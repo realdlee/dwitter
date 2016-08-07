@@ -1,60 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <ImageView
+        android:id="@+id/ivProfileImage"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:id="@+id/ivProfileImage"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:background="#ffffff"
+        android:layout_alignParentTop="true"
         android:layout_marginRight="5dp"
-        android:padding="5dp" />
+        android:background="#ffffff"
+        android:padding="5dp"
+        tools:src="@drawable/ic_launcher" />
 
     <TextView
+        android:id="@+id/tvUserName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tvUserName"
-        android:textSize="18sp"
         android:layout_alignParentTop="true"
         android:layout_marginRight="5dp"
         android:layout_toRightOf="@+id/ivProfileImage"
-        android:textStyle="bold" />
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        tools:text="Arnold Schwarzenegger" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="\@jack"
-        android:textSize="15sp"
         android:id="@+id/tvScreenName"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/tvUserName" />
-
-    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
-        android:textSize="16sp"
-        android:paddingBottom="5dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="1dp"
+        android:layout_toEndOf="@+id/tvRelativeTimestamp"
+        android:layout_toRightOf="@+id/tvUserName"
+        android:layout_weight="0"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:scrollHorizontally="true"
+        android:singleLine="true"
+        android:textSize="14sp"
+        tools:text="\@jack_jack" />
+
+    <TextView
+        android:id="@+id/tvRelativeTimestamp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="5dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textSize="14sp"
+        tools:text="1 day ago" />
+
+    <TextView
         android:id="@+id/tvBody"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvUserName"
+        android:layout_toEndOf="@+id/ivProfileImage"
+        android:layout_toRightOf="@+id/ivProfileImage"
         android:autoLink="all"
         android:linksClickable="true"
-        android:layout_below="@+id/tvUserName"
-        android:layout_toRightOf="@+id/ivProfileImage"
-        android:layout_toEndOf="@+id/ivProfileImage" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="1 day ago"
-        android:textSize="15sp"
-        android:layout_marginRight="5dp"
-        android:id="@+id/tvRelativeTimestamp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:paddingBottom="5dp"
+        android:textSize="16sp"
+        tools:text="Tweeting is super fun" />
 
 </RelativeLayout>
