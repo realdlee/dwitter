@@ -25,7 +25,7 @@ public class NewTweetActivity extends AppCompatActivity {
     EditText etNewTweet;
     @BindView(R.id.tvCharactersRemaining)
     TextView tvCharactersRemaining;
-    Integer MAX_BODY_LENGTH = 160;
+    Integer MAX_BODY_LENGTH = 140;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,8 +79,8 @@ public class NewTweetActivity extends AppCompatActivity {
     public void submitTweet(View view) {
         if (etNewTweet.length() == 0) {
             Toast.makeText(this, "Please type a tweet!", Toast.LENGTH_SHORT).show();
-        } else if (etNewTweet.length() > 160) {
-            Toast.makeText(this, "Your tweet is over the maximum 160 characters allowed.", Toast.LENGTH_SHORT).show();
+        } else if (etNewTweet.length() > MAX_BODY_LENGTH) {
+            Toast.makeText(this, "Your tweet is over the maximum " + Integer.toString(MAX_BODY_LENGTH) + " characters allowed.", Toast.LENGTH_SHORT).show();
         } else {
             Intent i = new Intent();
             i.putExtra("body", etNewTweet.getText().toString());
