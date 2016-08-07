@@ -2,6 +2,7 @@ package com.codepath.apps.dwitter.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -31,6 +32,8 @@ public class TimelineActivity extends AppCompatActivity {
     private ArrayList<Tweet> tweets;
     private TweetsArrayAdapter aTweets;
     private ListView lvTweets;
+    private SwipeRefreshLayout swipeContainer;
+
     private final int REQUEST_CODE = 20;
 
     @Override
@@ -51,6 +54,11 @@ public class TimelineActivity extends AppCompatActivity {
         client = TwitterApplication.getRestClient();
         populateTimeline();
 
+        setupEndlessScroll();
+        setupSwipeRefresh();
+    }
+
+    public void setupEndlessScroll() {
         lvTweets.setOnScrollListener(new EndlessScrollListener() {
             @Override
             public boolean onLoadMore(int page, int totalItemsCount) {
@@ -58,6 +66,24 @@ public class TimelineActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    public void setupSwipeRefresh() {
+        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                aTweets.clear();
+                Tweet.resetMaxId();
+                populateTimeline();
+                swipeContainer.setRefreshing(false);
+            }
+        });
+
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
 
     }
 

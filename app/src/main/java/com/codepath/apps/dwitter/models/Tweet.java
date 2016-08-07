@@ -41,6 +41,10 @@ public class Tweet {
         Tweet.maxId = maxId;
     }
 
+    public static void resetMaxId() {
+        Tweet.maxId = 0;
+    }
+
     private static long maxId = 0;
 
     //2) deserialize
