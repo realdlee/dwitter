@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -57,6 +58,7 @@ public class TimelineActivity extends AppCompatActivity {
                 return true;
             }
         });
+
     }
 
     public void populateTimeline() {
@@ -75,6 +77,11 @@ public class TimelineActivity extends AppCompatActivity {
     }
 
     public void newTweet(MenuItem mi) {
+        Intent i = new Intent(this, NewTweetActivity.class);
+        startActivityForResult(i, REQUEST_CODE);
+    }
+
+    public void newTweet(View view) {
         Intent i = new Intent(this, NewTweetActivity.class);
         startActivityForResult(i, REQUEST_CODE);
     }
