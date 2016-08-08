@@ -2,7 +2,7 @@
 
 This is an Android application for reading and posting new tweets to Twitter.
 
-Time spent: **6** hours spent in total
+Time spent: **12** hours spent in total
 
 ##User stories:
 - [x] Required: User can sign in to Twitter using OAuth login
@@ -19,7 +19,6 @@ Time spent: **6** hours spent in total
 - [x] Required: User can then enter a new tweet and post this to twitter
 - [x] Required: User is taken back to home timeline with new tweet visible in
   timeline
-
 - [x] Optional: While composing a tweet, user can see a character counter with
   characters remaining for tweet out of 140
 - [x] Optional: Links in tweets are clickable and will launch the web browser
@@ -29,7 +28,7 @@ Time spent: **6** hours spent in total
 - [ ] Optional: User can open the twitter app offline and see last loaded tweets
 - [ ] Optional: User can tap a tweet to display a "detailed" view of that tweet
 - [ ] Optional: User can select "reply" from detail view to respond to a tweet
-- [ ] Optional: Improve the user interface and theme
+- [x] Optional: Improve the user interface and theme
 - [ ] Optional: User can see embedded image media within the tweet detail view
 - [ ] Optional: User can watch embedded video within the tweet
 - [ ] Optional: Compose activity is replaced with a modal overlay
