@@ -71,4 +71,13 @@
         android:textSize="16sp"
         tools:text="Tweeting is super fun" />
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ivTweetImage"
+        tools:src="@drawable/ic_launcher"
+        android:layout_below="@+id/tvBody"
+        android:layout_toRightOf="@+id/ivProfileImage"
+        android:layout_toEndOf="@+id/ivProfileImage" />
+
 </RelativeLayout>

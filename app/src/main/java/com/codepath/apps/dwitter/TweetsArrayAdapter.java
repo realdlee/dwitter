@@ -53,7 +53,22 @@ public class TweetsArrayAdapter extends RecyclerView.Adapter<TweetsArrayAdapter.
         viewHolder.tvBody.setText(tweet.getBody());
         viewHolder.tvRelativeTimestamp.setText(getRelativeTimeAgo(tweet.getCreatedAt()));
         viewHolder.ivProfileImage.setImageResource(android.R.color.transparent);
-        Glide.with(getContext()).load(tweet.getUser().getProfileImageUrl()).into(viewHolder.ivProfileImage);
+        Glide
+                .with(getContext())
+                .load(tweet.getUser().getProfileImageUrl())
+                .placeholder(R.drawable.logo)
+                .centerCrop()
+                .into(viewHolder.ivProfileImage);
+
+        viewHolder.ivTweetImage.setImageResource(android.R.color.transparent);
+        if(tweet.getImageUrl() != null) {
+            Glide
+                    .with(getContext())
+                    .load(tweet.getImageUrl())
+                    .placeholder(R.drawable.logo)
+                    .centerCrop()
+                    .into(viewHolder.ivTweetImage);
+        }
     }
 
     @Override
@@ -64,9 +79,11 @@ public class TweetsArrayAdapter extends RecyclerView.Adapter<TweetsArrayAdapter.
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView tvUserName;
         public ImageView ivProfileImage;
+        public ImageView ivTweetImage;
         public TextView tvScreenName;
         public TextView tvBody;
         public TextView tvRelativeTimestamp;
+
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -76,6 +93,7 @@ public class TweetsArrayAdapter extends RecyclerView.Adapter<TweetsArrayAdapter.
             tvBody = (TextView) itemView.findViewById(R.id.tvBody);
             tvRelativeTimestamp = (TextView) itemView.findViewById(R.id.tvRelativeTimestamp);
             ivProfileImage = (ImageView) itemView.findViewById(R.id.ivProfileImage);
+            ivTweetImage = (ImageView) itemView.findViewById(R.id.ivTweetImage);
         }
     }
 

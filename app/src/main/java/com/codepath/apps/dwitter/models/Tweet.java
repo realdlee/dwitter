@@ -27,11 +27,39 @@ public class Tweet {
         return user;
     }
 
+    public boolean isFavorited() {
+        return favorited;
+    }
+
+    public int getFavoriteCount() {
+        return favoriteCount;
+    }
+
+    public int getRetweetCount() {
+        return retweetCount;
+    }
+
+    public boolean isRetweeted() {
+        return retweeted;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
     //1) list attributes
     private String body;
     private long uid; //unique id, not user_id
+
     private User user;
+
     private String createdAt;
+    private boolean retweeted;
+    private boolean favorited;
+    private int retweetCount;
+    private int favoriteCount;
+
+    private String imageUrl;
 
     public static long getMaxId() {
         return maxId;
@@ -59,6 +87,14 @@ public class Tweet {
             }
             tweet.createdAt = jsonObject.getString("created_at");
             tweet.user = User.fromJSON(jsonObject.getJSONObject("user"));
+            tweet.retweeted = jsonObject.getBoolean("retweeted");
+            tweet.retweetCount = jsonObject.getInt("retweet_count");
+            tweet.favorited = jsonObject.getBoolean("favorited");
+            tweet.favoriteCount = jsonObject.getInt("favorite_count");
+            JSONArray jsonMedia = jsonObject.getJSONObject("entities").getJSONArray("media");
+            for(int i=0; i < jsonMedia.length(); i++) {
+                tweet.imageUrl = jsonMedia.getJSONObject(i).getString("media_url");
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
