@@ -49,9 +49,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.TimelineActivity" />
-        <activity android:name=".activities.NewTweetActivity"
-            android:windowSoftInputMode="stateAlwaysVisible|adjustResize"
-            ></activity>
+        <activity
+            android:name=".activities.NewTweetActivity"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustResize" />
+        <activity android:name=".activities.ProfileActivity"></activity>
     </application>
 
 </manifest>

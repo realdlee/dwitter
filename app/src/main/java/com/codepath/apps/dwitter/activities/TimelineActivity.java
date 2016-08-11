@@ -1,5 +1,6 @@
 package com.codepath.apps.dwitter.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -8,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.astuetz.PagerSlidingTabStrip;
@@ -20,7 +22,7 @@ public class TimelineActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
-//        setupToolbar();
+        setupToolbar();
 
         //get viewpager
         ViewPager vpPager = (ViewPager) findViewById(R.id.viewpager);
@@ -44,6 +46,11 @@ public class TimelineActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         TextView mTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
         mTitle.setText(R.string.toolbarTimeline);
+    }
+
+    public void onProfileView(MenuItem mi) {
+        Intent i = new Intent(this, ProfileActivity.class);
+        startActivity(i);
     }
 
     //returns the order of the fragments in the view pager

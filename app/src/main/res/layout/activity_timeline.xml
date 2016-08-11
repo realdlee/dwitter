@@ -6,9 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".activities.TimelineActivity">
 
-    <!--<include layout="@layout/toolbar" />-->
+    <include layout="@layout/toolbar" />
 
     <com.astuetz.PagerSlidingTabStrip
+        android:layout_below="@id/toolbar"
         android:id="@+id/tabs"
         app:pstsShouldExpand="true"
         app:pstsTextAllCaps="true"

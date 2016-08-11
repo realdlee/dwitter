@@ -61,7 +61,6 @@ public class TweetsListFragment extends Fragment {
 
     public void addAll(List<Tweet> tweets) {
         aTweets.addAll(tweets);
-
 //        tweets.addAll(tweets);
 //        aTweets.notifyDataSetChanged();
     }
