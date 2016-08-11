@@ -1,19 +1,35 @@
 package com.codepath.apps.dwitter.activities;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.widget.TextView;
 
+import com.astuetz.PagerSlidingTabStrip;
 import com.codepath.apps.dwitter.R;
+import com.codepath.apps.dwitter.fragments.HomeTimelineFragment;
+import com.codepath.apps.dwitter.fragments.MentionsTimelineFragment;
 
 public class TimelineActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
-        setupToolbar();
+//        setupToolbar();
+
+        //get viewpager
+        ViewPager vpPager = (ViewPager) findViewById(R.id.viewpager);
+        //set viewpager adapter for the pager
+        vpPager.setAdapter(new TweetsPagerAdapter(getSupportFragmentManager()));
+        //find sliding tabstrip
+        PagerSlidingTabStrip tabStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+        //attach the tabstrip to the viewpager
+        tabStrip.setViewPager(vpPager);
 
 //unnecessary - removed at 20:00 in Walkthrough
 //        if (savedInstanceState == null) {
@@ -30,6 +46,36 @@ public class TimelineActivity extends AppCompatActivity {
         mTitle.setText(R.string.toolbarTimeline);
     }
 
+    //returns the order of the fragments in the view pager
+    public class TweetsPagerAdapter extends FragmentPagerAdapter {
+        final int PAGE_COUNT = 2;
+        private String tabTitles[] = {"Home", "Mentions"};
+
+        public TweetsPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            if (position == 0) {
+                return new HomeTimelineFragment();
+            } else if (position == 1) {
+                return new MentionsTimelineFragment();
+            } else {
+                return null;
+            }
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return tabTitles[position];
+        }
+
+        @Override
+        public int getCount() {
+            return tabTitles.length;
+        }
+    }
 //    public void newTweet(MenuItem mi) {
 //        Intent i = new Intent(this, NewTweetActivity.class);
 //        startActivityForResult(i, REQUEST_CODE);
