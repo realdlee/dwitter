@@ -2,7 +2,6 @@ package com.codepath.apps.dwitter;
 
 import android.content.Context;
 
-import com.codepath.apps.dwitter.models.Tweet;
 import com.codepath.oauth.OAuthBaseClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -43,29 +42,29 @@ public class TwitterClient extends OAuthBaseClient {
 		client.get(apiUrl, params, handler);
 	}
 
-	public void getHomeTimeline(AsyncHttpResponseHandler handler) {
+	public void getHomeTimeline(int page, AsyncHttpResponseHandler handler) {
 		String apiUrl = getApiUrl("statuses/home_timeline.json");
 		RequestParams params = new RequestParams();
 		params.put("count", 25);
-		if(Tweet.getMaxId() != 0) {
-			params.put("max_id", Tweet.getMaxId());
-		}
+		params.put("page", page);
 		params.put("since_id", 1);
 		getClient().get(apiUrl, params, handler);
 	}
 
-	public void getMentionsTimeline(AsyncHttpResponseHandler handler) {
+	public void getMentionsTimeline(int page, AsyncHttpResponseHandler handler) {
 		String apiUrl = getApiUrl("statuses/mentions_timeline.json");
 		RequestParams params = new RequestParams();
 		params.put("count", 25);
+		params.put("page", page);
 		getClient().get(apiUrl, params, handler);
 	}
 
-	public void getUserTimeline(String screenName, AsyncHttpResponseHandler handler) {
+	public void getUserTimeline(int page, String screenName, AsyncHttpResponseHandler handler) {
 		String apiUrl = getApiUrl("statuses/user_timeline.json");
 		RequestParams params = new RequestParams();
 		params.put("count", 25);
 		params.put("screen_name", screenName);
+		params.put("page", page);
 		getClient().get(apiUrl, params, handler);
 	}
 

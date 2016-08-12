@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -31,6 +32,7 @@ public class ProfileActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         final TextView mTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
 
         client.getUserInfo(new JsonHttpResponseHandler() {
@@ -61,6 +63,19 @@ public class ProfileActivity extends AppCompatActivity {
         tvTagline.setText(user.getTagline());
         tvFollowers.setText(user.getFollowersCount() + " Followers");
         tvFollowing.setText(user.getFollowingsCount() + " Following");
-        Glide.with(this).load(user.getProfileImageUrl()).into(ivProfileImage);
+        Glide.with(this)
+                .load(user.getProfileImageUrl())
+                .into(ivProfileImage);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

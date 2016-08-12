@@ -23,7 +23,7 @@ public class UserTimelineFragment extends TweetsListFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         client = TwitterApplication.getRestClient();
-        populateTimeline();
+        populateTimeline(1);
     }
 
     public static UserTimelineFragment newInstance(String screenName) {
@@ -34,9 +34,9 @@ public class UserTimelineFragment extends TweetsListFragment {
         return userFragment;
     }
 
-    public void populateTimeline() {
+    public void populateTimeline(int page) {
         String screenName = getArguments().getString("screenName");
-        client.getUserTimeline(screenName, new JsonHttpResponseHandler() {
+        client.getUserTimeline(page, screenName, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 addAll(Tweet.fromJSONArray(response));

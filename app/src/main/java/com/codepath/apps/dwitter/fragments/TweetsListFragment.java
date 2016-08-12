@@ -11,6 +11,7 @@ import android.widget.ListView;
 
 import com.codepath.apps.dwitter.R;
 import com.codepath.apps.dwitter.TweetsArrayAdapter;
+import com.codepath.apps.dwitter.models.EndlessScrollListener;
 import com.codepath.apps.dwitter.models.Tweet;
 
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ import java.util.List;
 /**
  * Created by lee on 8/10/16.
  */
-public class TweetsListFragment extends Fragment {
+public abstract class TweetsListFragment extends Fragment {
     private ArrayList<Tweet> tweets;
     private TweetsArrayAdapter aTweets;
     private SwipeRefreshLayout swipeContainer;
@@ -43,6 +44,15 @@ public class TweetsListFragment extends Fragment {
 //        rvTweets.setAdapter(aTweets);
 //        swipeContainer = (SwipeRefreshLayout) v.findViewById(R.id.swipeContainer);
 //        setupEndlessScroll(linearLayoutManager);
+
+        lvTweets.setOnScrollListener(new EndlessScrollListener() {
+
+            @Override
+            public boolean onLoadMore(int page, int totalItemsCount) {
+                populateTimeline(page);
+                return true; // ONLY if more data is actually being loaded; false otherwise.
+            }
+        });
 //        setupSwipeRefresh();
 
         return v;
@@ -64,6 +74,8 @@ public class TweetsListFragment extends Fragment {
 //        tweets.addAll(tweets);
 //        aTweets.notifyDataSetChanged();
     }
+
+    protected abstract void populateTimeline(int page);
 
 //    public void setupSwipeRefresh() {
 //        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
