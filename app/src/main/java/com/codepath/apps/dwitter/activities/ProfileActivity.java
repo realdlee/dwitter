@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -35,16 +36,21 @@ public class ProfileActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         final TextView mTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
-
-        client.getUserInfo(new JsonHttpResponseHandler() {
+        String screenName = getIntent().getStringExtra("screen_name");
+        client.getUserInfo(screenName, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 user = User.fromJSON(response);
                 mTitle.setText("@" + user.getScreenName());
                 populateProfileHeader(user);
             }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Log.e("error", errorResponse.toString());
+                super.onFailure(statusCode, headers, throwable, errorResponse);
+            }
         });
-        String screenName = getIntent().getStringExtra("screenName");
         if (savedInstanceState == null) {
             UserTimelineFragment fragmentUserTimeline = UserTimelineFragment.newInstance(screenName);
             //display user fragment dynamically

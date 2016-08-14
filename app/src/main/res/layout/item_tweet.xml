@@ -13,6 +13,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginRight="5dp"
         android:background="#ffffff"
+        android:onClick="showProfile"
         android:padding="5dp"
         tools:src="@drawable/ic_launcher" />
 
