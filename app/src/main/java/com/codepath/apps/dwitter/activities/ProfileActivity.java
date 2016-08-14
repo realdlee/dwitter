@@ -19,6 +19,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class ProfileActivity extends AppCompatActivity {
     TwitterClient client;
@@ -65,6 +66,7 @@ public class ProfileActivity extends AppCompatActivity {
         tvFollowing.setText(user.getFollowingsCount() + " Following");
         Glide.with(this)
                 .load(user.getProfileImageUrl())
+                .bitmapTransform(new RoundedCornersTransformation(this, 3, 3))
                 .into(ivProfileImage);
     }
 

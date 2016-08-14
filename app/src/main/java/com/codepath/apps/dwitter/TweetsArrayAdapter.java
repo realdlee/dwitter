@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Locale;
 
 import cz.msebera.android.httpclient.ParseException;
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 /**
  * Created by lee on 8/4/16.
@@ -47,6 +48,7 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
         ivProfileImage.setImageResource(android.R.color.transparent);
         Glide.with(getContext())
                 .load(tweet.getUser().getProfileImageUrl())
+                .bitmapTransform(new RoundedCornersTransformation(getContext(), 3, 3))
                 .into(ivProfileImage);
 //        5) return view to be inserted
         return convertView;
