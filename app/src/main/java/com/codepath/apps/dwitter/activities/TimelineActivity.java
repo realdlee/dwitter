@@ -16,8 +16,13 @@ import com.astuetz.PagerSlidingTabStrip;
 import com.codepath.apps.dwitter.R;
 import com.codepath.apps.dwitter.fragments.HomeTimelineFragment;
 import com.codepath.apps.dwitter.fragments.MentionsTimelineFragment;
+import com.codepath.apps.dwitter.models.Tweet;
+
+import org.parceler.Parcels;
 
 public class TimelineActivity extends AppCompatActivity {
+    private final int REQUEST_CODE = 20;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,38 +88,23 @@ public class TimelineActivity extends AppCompatActivity {
             return tabTitles.length;
         }
     }
-//    public void newTweet(MenuItem mi) {
-//        Intent i = new Intent(this, NewTweetActivity.class);
-//        startActivityForResult(i, REQUEST_CODE);
-//    }
-//
-//    public void newTweet(View view) {
-//        Intent i = new Intent(this, NewTweetActivity.class);
-//        startActivityForResult(i, REQUEST_CODE);
-//    }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
-//            String newBody = data.getStringExtra("body");
-//            client.createTweet(newBody, new JsonHttpResponseHandler() {
-//                @Override
-//                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-//                    Tweet newTweet = Tweet.fromJSON(response);
-////                    tweets.add(0, newTweet);
-////                    aTweets.notifyItemInserted(0);
-////                    rvTweets.scrollToPosition(0);
-//                    super.onSuccess(statusCode, headers, response);
-//                }
-//
-//                @Override
-//                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-//                    Log.e("fail", errorResponse.toString());
-//                    super.onFailure(statusCode, headers, throwable, errorResponse);
-//                }
-//            });
-//        }
-//    }
+    public void newTweet(MenuItem mi) {
+        Intent i = new Intent(this, NewTweetActivity.class);
+        startActivityForResult(i, REQUEST_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
+            Tweet tweet = (Tweet) Parcels.unwrap(data.getParcelableExtra("tweet"));
+//            HomeTimelineFragment fragment = (HomeTimelineFragment)
+//                    getSupportFragmentManager().findFragmentById(R.id.);
+//            tweets.add(0, newTweet);
+//            aTweets.notifyItemInserted(0);
+//            rvTweets.scrollToPosition(0);
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

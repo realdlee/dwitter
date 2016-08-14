@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -15,10 +16,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codepath.apps.dwitter.R;
+import com.codepath.apps.dwitter.TwitterApplication;
+import com.codepath.apps.dwitter.TwitterClient;
+import com.codepath.apps.dwitter.models.Tweet;
+import com.loopj.android.http.JsonHttpResponseHandler;
+
+import org.json.JSONObject;
+import org.parceler.Parcels;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cz.msebera.android.httpclient.Header;
 
 public class NewTweetActivity extends AppCompatActivity {
     @BindView(R.id.etNewTweet)
@@ -26,6 +35,7 @@ public class NewTweetActivity extends AppCompatActivity {
     @BindView(R.id.tvCharactersRemaining)
     TextView tvCharactersRemaining;
     Integer MAX_BODY_LENGTH = 140;
+    TwitterClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +43,7 @@ public class NewTweetActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_tweet);
         setupToolbar();
         ButterKnife.bind(this);
+        client = TwitterApplication.getRestClient();
         etNewTweet.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -82,10 +93,24 @@ public class NewTweetActivity extends AppCompatActivity {
         } else if (etNewTweet.length() > MAX_BODY_LENGTH) {
             Toast.makeText(this, "Your tweet is over the maximum " + Integer.toString(MAX_BODY_LENGTH) + " characters allowed.", Toast.LENGTH_SHORT).show();
         } else {
-            Intent i = new Intent();
-            i.putExtra("body", etNewTweet.getText().toString());
-            setResult(RESULT_OK, i);
-            finish();
+            String newBody = etNewTweet.getText().toString();
+            client.createTweet(newBody, new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    Tweet newTweet = Tweet.fromJSON(response);
+                    Intent i = new Intent();
+                    i.putExtra("tweet", Parcels.wrap(newTweet));
+                    setResult(RESULT_OK, i);
+                    finish();
+//                    super.onSuccess(statusCode, headers, response);
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                    Log.e("fail", errorResponse.toString());
+                    super.onFailure(statusCode, headers, throwable, errorResponse);
+                }
+            });
         }
     }
 }

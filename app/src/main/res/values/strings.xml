@@ -6,4 +6,5 @@
     <string name="etNewTweetHint">What\'s happening?</string>
     <string name="toolbarTimeline">Your Timeline</string>
     <string name="toolbarNewTweet">Post Your Tweet</string>
+    <string name="miProfileTitle">Profile</string>
 </resources>

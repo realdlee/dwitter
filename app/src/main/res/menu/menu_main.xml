@@ -5,8 +5,14 @@
         android:id="@+id/miProfile"
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_profile"
-        android:title="Profile"
+        android:title="@string/miProfileTitle"
         android:onClick="onProfileView">
-
+    </item>
+    <item
+        android:id="@+id/miCompose"
+        android:icon="@drawable/ic_message"
+        app:showAsAction="ifRoom"
+        android:onClick="newTweet"
+        android:title="Compose">
     </item>
 </menu>

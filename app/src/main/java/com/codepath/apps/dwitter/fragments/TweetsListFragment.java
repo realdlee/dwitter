@@ -24,6 +24,7 @@ public abstract class TweetsListFragment extends Fragment {
     private ArrayList<Tweet> tweets;
     private TweetsArrayAdapter aTweets;
     private SwipeRefreshLayout swipeContainer;
+    private final int REQUEST_CODE = 20;
 //    private RecyclerView rvTweets;
     ListView lvTweets;
 
@@ -73,6 +74,10 @@ public abstract class TweetsListFragment extends Fragment {
         aTweets.addAll(tweets);
 //        tweets.addAll(tweets);
 //        aTweets.notifyDataSetChanged();
+    }
+
+    public void add(Tweet tweet) {
+        aTweets.add(tweet);
     }
 
     protected abstract void populateTimeline(int page);
