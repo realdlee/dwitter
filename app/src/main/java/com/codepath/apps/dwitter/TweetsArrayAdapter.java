@@ -3,7 +3,6 @@ package com.codepath.apps.dwitter;
 import android.content.Context;
 import android.content.Intent;
 import android.text.format.DateUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +19,7 @@ import java.util.List;
 import java.util.Locale;
 
 import cz.msebera.android.httpclient.ParseException;
+import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
 
 /**
  * Created by lee on 8/4/16.
@@ -50,6 +50,7 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
         ivProfileImage.setImageResource(android.R.color.transparent);
         Picasso.with(getContext())
                 .load(tweet.getUser().getProfileImageUrl())
+                .transform(new RoundedCornersTransformation(3, 3))
                 .into(ivProfileImage);
 //        5) return view to be inserted
         ivProfileImage.setTag(position);
