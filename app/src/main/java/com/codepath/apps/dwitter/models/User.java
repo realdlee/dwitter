@@ -2,10 +2,12 @@ package com.codepath.apps.dwitter.models;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcel;
 
 /**
  * Created by lee on 8/4/16.
  */
+@Parcel
 public class User {
     public String getName() {
         return name;
@@ -35,13 +37,17 @@ public class User {
         return tagline;
     }
 
-    private String name;
-    private long uid;
-    private String screenName;
-    private String profileImageUrl;
-    private String tagline;
-    private int followersCount;
-    private int followingsCount;
+    String name;
+    long uid;
+    String screenName;
+    String profileImageUrl;
+    String tagline;
+    int followersCount;
+    int followingsCount;
+
+    public User() {
+
+    }
 
     public static User fromJSON(JSONObject json) {
         User u = new User();

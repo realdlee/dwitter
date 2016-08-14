@@ -1,10 +1,9 @@
 package com.codepath.apps.dwitter.models;
 
-import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcel;
 
 import java.util.ArrayList;
 
@@ -12,6 +11,7 @@ import java.util.ArrayList;
  * Created by lee on 8/4/16.
  */
 //purpose: parse json + store the data
+@Parcel
 public class Tweet {
     public String getBody() {
         return body;
@@ -50,18 +50,18 @@ public class Tweet {
     }
 
     //1) list attributes
-    private String body;
-    private long uid; //unique id, not user_id
+    String body;
+    long uid; //unique id, not user_id
+    User user;
+    String createdAt;
+    boolean retweeted;
+    boolean favorited;
+    int retweetCount;
+    int favoriteCount;
+    String imageUrl;
 
-    private User user;
-
-    private String createdAt;
-    private boolean retweeted;
-    private boolean favorited;
-    private int retweetCount;
-    private int favoriteCount;
-
-    private String imageUrl;
+    public Tweet() {
+    }
 
     public static long getMaxId() {
         return maxId;
@@ -84,7 +84,7 @@ public class Tweet {
         try {
             tweet.body = jsonObject.getString("text");
             tweet.uid = jsonObject.getLong("id");
-            if(Tweet.maxId == 0 || tweet.uid < Tweet.maxId) {
+            if (Tweet.maxId == 0 || tweet.uid < Tweet.maxId) {
                 Tweet.setMaxId(--tweet.uid);
             }
             tweet.createdAt = jsonObject.getString("created_at");
@@ -107,12 +107,12 @@ public class Tweet {
 
     public static ArrayList<Tweet> fromJSONArray(JSONArray jsonArray) {
         ArrayList<Tweet> tweets = new ArrayList<>();
-        for(int i=0; i<jsonArray.length(); i++) {
+        for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject tweetJson = null;
             try {
                 tweetJson = jsonArray.getJSONObject(i);
                 Tweet tweet = Tweet.fromJSON(tweetJson);
-                if(tweet != null) {
+                if (tweet != null) {
                     tweets.add(tweet);
                 }
             } catch (JSONException e) {
