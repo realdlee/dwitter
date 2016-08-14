@@ -2,6 +2,7 @@ package com.codepath.apps.dwitter.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.codepath.apps.dwitter.TwitterApplication;
 import com.codepath.apps.dwitter.TwitterClient;
@@ -22,6 +23,7 @@ public class HomeTimelineFragment extends TweetsListFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.e("load", "home timeline");
         client = TwitterApplication.getRestClient();
         populateTimeline(1);
     }
@@ -40,4 +42,5 @@ public class HomeTimelineFragment extends TweetsListFragment {
             }
         });
     }
+
 }

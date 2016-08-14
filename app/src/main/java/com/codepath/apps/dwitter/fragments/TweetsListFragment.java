@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,11 +26,19 @@ public abstract class TweetsListFragment extends Fragment {
     private TweetsArrayAdapter aTweets;
     private SwipeRefreshLayout swipeContainer;
     private final int REQUEST_CODE = 20;
-//    private RecyclerView rvTweets;
+    //    private RecyclerView rvTweets;
     ListView lvTweets;
 
-    //inflation logic
-//    @Nullable
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        //create arraylist (data source)
+        tweets = new ArrayList<>();
+        //construct the adapter from data source
+        aTweets = new TweetsArrayAdapter(getActivity(), tweets);
+    }
+
+    //    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup parent, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_tweets_list, parent, false);
@@ -59,25 +68,13 @@ public abstract class TweetsListFragment extends Fragment {
         return v;
     }
 
-    //creation lifecycle event
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        //create arraylist (data source)
-        tweets = new ArrayList<>();
-// ;
-        //construct the adapter from data source
-        aTweets = new TweetsArrayAdapter(getActivity(), tweets);
-    }
-
     public void addAll(List<Tweet> tweets) {
         aTweets.addAll(tweets);
-//        tweets.addAll(tweets);
-//        aTweets.notifyDataSetChanged();
     }
 
     public void add(Tweet tweet) {
-        aTweets.add(tweet);
+        aTweets.insert(tweet, 0);
+        aTweets.notifyDataSetChanged();
     }
 
     protected abstract void populateTimeline(int page);

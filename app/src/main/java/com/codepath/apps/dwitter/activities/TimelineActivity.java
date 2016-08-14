@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -14,6 +13,7 @@ import android.widget.TextView;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.codepath.apps.dwitter.R;
+import com.codepath.apps.dwitter.SmartFragmentStatePagerAdapter;
 import com.codepath.apps.dwitter.fragments.HomeTimelineFragment;
 import com.codepath.apps.dwitter.fragments.MentionsTimelineFragment;
 import com.codepath.apps.dwitter.models.Tweet;
@@ -22,6 +22,8 @@ import org.parceler.Parcels;
 
 public class TimelineActivity extends AppCompatActivity {
     private final int REQUEST_CODE = 20;
+    private TweetsPagerAdapter adapterViewPager;
+    HomeTimelineFragment fragmentHomeTimeline;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +34,8 @@ public class TimelineActivity extends AppCompatActivity {
         //get viewpager
         ViewPager vpPager = (ViewPager) findViewById(R.id.viewpager);
         //set viewpager adapter for the pager
-        vpPager.setAdapter(new TweetsPagerAdapter(getSupportFragmentManager()));
+        adapterViewPager = new TweetsPagerAdapter(getSupportFragmentManager());
+        vpPager.setAdapter(adapterViewPager);
         //find sliding tabstrip
         PagerSlidingTabStrip tabStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         //attach the tabstrip to the viewpager
@@ -60,7 +63,7 @@ public class TimelineActivity extends AppCompatActivity {
     }
 
     //returns the order of the fragments in the view pager
-    public class TweetsPagerAdapter extends FragmentPagerAdapter {
+    public class TweetsPagerAdapter extends SmartFragmentStatePagerAdapter {
         final int PAGE_COUNT = 2;
         private String tabTitles[] = {"Home", "Mentions"};
 
@@ -71,7 +74,8 @@ public class TimelineActivity extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
             if (position == 0) {
-                return new HomeTimelineFragment();
+                fragmentHomeTimeline = new HomeTimelineFragment();
+                return fragmentHomeTimeline;
             } else if (position == 1) {
                 return new MentionsTimelineFragment();
             } else {
@@ -99,11 +103,8 @@ public class TimelineActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
             Tweet tweet = (Tweet) Parcels.unwrap(data.getParcelableExtra("tweet"));
-//            HomeTimelineFragment fragment = (HomeTimelineFragment)
-//                    getSupportFragmentManager().findFragmentById(R.id.);
-//            tweets.add(0, newTweet);
-//            aTweets.notifyItemInserted(0);
-//            rvTweets.scrollToPosition(0);
+            fragmentHomeTimeline = (HomeTimelineFragment) adapterViewPager.getRegisteredFragment(0);
+            fragmentHomeTimeline.add(tweet);
         }
     }
 
