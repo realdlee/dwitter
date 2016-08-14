@@ -2,9 +2,9 @@
 
 This is an Android application for reading and posting new tweets to Twitter.
 
-Time spent: **12** hours spent in total
+Time spent: **21** hours spent in total
 
-##User stories:
+##User stories (Week 3):
 - [x] Required: User can sign in to Twitter using OAuth login
 - [x] Required: User can view the tweets from their home timeline
 - [x] Required: User should be displayed the username, name, and body for each
@@ -25,15 +25,7 @@ Time spent: **12** hours spent in total
   (see autolink)
 - [x] Optional: User can refresh tweets timeline by pulling down to refresh (i.e
   pull-to-refresh)
-- [ ] Optional: User can open the twitter app offline and see last loaded tweets
-- [ ] Optional: User can tap a tweet to display a "detailed" view of that tweet
-- [ ] Optional: User can select "reply" from detail view to respond to a tweet
 - [x] Optional: Improve the user interface and theme
-- [ ] Optional: User can see embedded image media within the tweet detail view
-- [ ] Optional: User can watch embedded video within the tweet
-- [ ] Optional: Compose activity is replaced with a modal overlay
-- [ ] Optional: Use Parcelable instead of Serializable using the popular
-  Parceler library.
 - [x] Optional: Apply the popular Butterknife annotation library to reduce view
   boilerplate.
 - [x] Optional: Leverage RecyclerView as a replacement for the ListView and
@@ -42,9 +34,26 @@ Time spent: **12** hours spent in total
   on the AppBar.
 - [x] Optional: Replace all icon drawables and other static image assets with
   vector drawables where appropriate.
-- [ ] Optional: Leverage the data binding support module to bind data into one
-  or more activity or fragment layout templates.
 - [x] Optional: Replace Picasso with Glide for more efficient image rendering.
+
+##User stories (Week 4):
+- [x] Required: Includes all required user stories from Week 3 Twitter Client
+- [x] Required: User can switch between Timeline and Mention views using tabs.
+  (4 points)
+- User can view their home timeline tweets.
+- User can view the recent mentions of their username.
+- [x] Required: User can navigate to view their own profile (3 points)
+- User can see picture, tagline, # of followers, # of following, and tweets on
+  their profile.
+- [x] Required: User can click on the profile image in any tweet to see another
+  user's profile. (4 points total)
+- User can see picture, tagline, # of followers, # of following, and tweets of
+  clicked user. (1 point)
+- Profile view should include that user's timeline (1 point)
+- [ ] Optional: User can view following / followers list through the profile (2
+  points)
+- [x] Required: User can infinitely paginate any of these timelines (home,
+  mentions, user) by scrolling to the bottom (1 point)
 
 ##Walkthrough of all user stories:
 <img src='https://github.com/realdlee/Dwitter/blob/master/walkthrough.gif'
