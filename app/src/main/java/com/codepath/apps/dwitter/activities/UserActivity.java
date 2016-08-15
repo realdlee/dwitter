@@ -12,6 +12,7 @@ import com.codepath.apps.dwitter.R;
 import com.codepath.apps.dwitter.TwitterApplication;
 import com.codepath.apps.dwitter.TwitterClient;
 import com.codepath.apps.dwitter.UsersArrayAdapter;
+import com.codepath.apps.dwitter.models.EndlessScrollListener;
 import com.codepath.apps.dwitter.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -29,6 +30,7 @@ public class UserActivity extends AppCompatActivity {
     private ArrayList<User> users;
     private UsersArrayAdapter aUsers;
     ListView lvUsers;
+    String screenName;
     String userType;
 
     @Override
@@ -39,52 +41,71 @@ public class UserActivity extends AppCompatActivity {
         setupToolbar();
         client = TwitterApplication.getRestClient();
 
-        String screenName = getIntent().getStringExtra("screen_name");
+        screenName = getIntent().getStringExtra("screen_name");
         lvUsers = (ListView) findViewById(R.id.lvUsers);
         users = new ArrayList<>();
         aUsers = new UsersArrayAdapter(this, users);
         lvUsers.setAdapter(aUsers);
         if(userType.equals("followers")) {
-            client.getFollowers(1, screenName, new JsonHttpResponseHandler() {
-                @Override
-                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                    try {
-                        aUsers.clear();
-                        JSONArray jsonUsers = response.getJSONArray("users");
-                        users = User.fromJSONArray(jsonUsers);
-                        aUsers.addAll(users);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                @Override
-                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                    Log.e("error", errorResponse.toString());
-                    super.onFailure(statusCode, headers, throwable, errorResponse);
-                }
-            });
+            loadFollowers(1);
         } else {
-            client.getFriends(1, screenName, new JsonHttpResponseHandler() {
-                @Override
-                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                    try {
-                        aUsers.clear();
-                        JSONArray jsonUsers = response.getJSONArray("users");
-                        users = User.fromJSONArray(jsonUsers);
-                        aUsers.addAll(users);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                @Override
-                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                    Log.e("error", errorResponse.toString());
-                    super.onFailure(statusCode, headers, throwable, errorResponse);
-                }
-            });
+            loadFriends(1);
         }
+
+
+        lvUsers.setOnScrollListener(new EndlessScrollListener() {
+            @Override
+            public boolean onLoadMore(int page, int totalItemsCount) {
+                if(userType.equals("followers")) {
+                    loadFollowers(page);
+                } else {
+                    loadFriends(page);
+                }
+                return true; // ONLY if more data is actually being loaded; false otherwise.
+            }
+        });
+    }
+
+    public void loadFollowers(int page) {
+        client.getFollowers(page, screenName, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                try {
+                    JSONArray jsonUsers = response.getJSONArray("users");
+                    users = User.fromJSONArray(jsonUsers);
+                    aUsers.addAll(users);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Log.e("error", errorResponse.toString());
+                super.onFailure(statusCode, headers, throwable, errorResponse);
+            }
+        });
+    }
+
+    public void loadFriends(int page) {
+        client.getFriends(page, screenName, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                try {
+                    JSONArray jsonUsers = response.getJSONArray("users");
+                    users = User.fromJSONArray(jsonUsers);
+                    aUsers.addAll(users);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Log.e("error", errorResponse.toString());
+                super.onFailure(statusCode, headers, throwable, errorResponse);
+            }
+        });
     }
 
     public void setupToolbar() {
