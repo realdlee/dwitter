@@ -50,13 +50,15 @@ Time spent: **21** hours spent in total
 - User can see picture, tagline, # of followers, # of following, and tweets of
   clicked user. (1 point)
 - Profile view should include that user's timeline (1 point)
-- [ ] Optional: User can view following / followers list through the profile (2
+- [x] Optional: User can view following / followers list through the profile (2
   points)
 - [x] Required: User can infinitely paginate any of these timelines (home,
   mentions, user) by scrolling to the bottom (1 point)
+- [x] Optional: Stretch: Use Parcelable instead of Serializable using the
+  popular Parceler library.
 
 ##Walkthrough of all user stories:
-<img src='https://github.com/realdlee/Dwitter/blob/master/walkthrough.gif'
+<img src='https://github.com/realdlee/Dwitter/blob/master/walkthrough2.gif'
 title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
