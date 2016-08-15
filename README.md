@@ -2,7 +2,7 @@
 
 This is an Android application for reading and posting new tweets to Twitter.
 
-Time spent: **21** hours spent in total
+Time spent: **27** hours spent in total
 
 ##User stories (Week 3):
 - [x] Required: User can sign in to Twitter using OAuth login
