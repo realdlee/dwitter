@@ -1,8 +1,11 @@
 package com.codepath.apps.dwitter.models;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.parceler.Parcel;
+
+import java.util.ArrayList;
 
 /**
  * Created by lee on 8/4/16.
@@ -46,7 +49,6 @@ public class User {
     int followingsCount;
 
     public User() {
-
     }
 
     public static User fromJSON(JSONObject json) {
@@ -64,5 +66,23 @@ public class User {
             e.printStackTrace();
         }
         return u;
+    }
+
+    public static ArrayList<User> fromJSONArray(JSONArray jsonArray) {
+        ArrayList<User> users = new ArrayList<>();
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject userJson = null;
+            try {
+                userJson = jsonArray.getJSONObject(i);
+                User user = User.fromJSON(userJson);
+                if (user != null) {
+                    users.add(user);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                continue;
+            }
+        }
+        return users;
     }
 }

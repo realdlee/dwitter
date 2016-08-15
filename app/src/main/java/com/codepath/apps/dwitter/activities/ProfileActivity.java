@@ -1,12 +1,14 @@
 package com.codepath.apps.dwitter.activities;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,17 +30,19 @@ import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 public class ProfileActivity extends AppCompatActivity {
     TwitterClient client;
     User user;
+    TextView mTitle;
+    TextView tvName;
+    TextView tvTagline;
+    TextView tvFollowers;
+    TextView tvFollowing;
+    ImageView ivProfileImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         client = TwitterApplication.getRestClient();
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        final TextView mTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
+        setupToolbar();
         String screenName = getIntent().getStringExtra("screen_name");
         client.getUserInfo(screenName, new JsonHttpResponseHandler() {
             @Override
@@ -63,14 +67,22 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
-    private void populateProfileHeader(User user) {
+    public void setupToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
+    }
+
+    private void populateProfileHeader(final User user) {
         DecimalFormat formatter = new DecimalFormat("#,###,###");
 
-        TextView tvName = (TextView) findViewById(R.id.tvName);
-        TextView tvTagline = (TextView) findViewById(R.id.tvTagline);
-        TextView tvFollowers = (TextView) findViewById(R.id.tvFollowers);
-        TextView tvFollowing = (TextView) findViewById(R.id.tvFollowing);
-        ImageView ivProfileImage = (ImageView) findViewById(R.id.ivProfileImage);
+        tvName = (TextView) findViewById(R.id.tvUserName);
+        tvTagline = (TextView) findViewById(R.id.tvTagline);
+        tvFollowers = (TextView) findViewById(R.id.tvFollowers);
+        tvFollowing = (TextView) findViewById(R.id.tvFollowing);
+        ivProfileImage = (ImageView) findViewById(R.id.ivProfileImage);
         tvName.setText(user.getName());
         tvTagline.setText(user.getTagline());
         tvFollowers.setText(formatter.format(user.getFollowersCount()) + " Followers");
@@ -79,6 +91,15 @@ public class ProfileActivity extends AppCompatActivity {
                 .load(user.getProfileImageUrl())
                 .bitmapTransform(new RoundedCornersTransformation(this, 3, 3))
                 .into(ivProfileImage);
+
+        tvFollowers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), UserActivity.class);
+                i.putExtra("screen_name", user.getScreenName());
+                startActivity(i);
+            }
+        });
     }
 
     @Override
