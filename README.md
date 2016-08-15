@@ -58,8 +58,10 @@ Time spent: **21** hours spent in total
   popular Parceler library.
 
 ##Walkthrough of all user stories:
-<img src='https://github.com/realdlee/Dwitter/blob/master/walkthrough2.gif'
+<img src='https://github.com/realdlee/Dwitter/blob/master/walkthrough3.gif'
 title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
+[Week 3 Walkthrough](https://github.com/realdlee/Dwitter/blob/master/walkthrough.gif)
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
