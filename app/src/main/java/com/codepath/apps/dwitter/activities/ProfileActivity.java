@@ -97,6 +97,17 @@ public class ProfileActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent i = new Intent(getApplicationContext(), UserActivity.class);
                 i.putExtra("screen_name", user.getScreenName());
+                i.putExtra("user_type", "followers");
+                startActivity(i);
+            }
+        });
+
+        tvFollowing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), UserActivity.class);
+                i.putExtra("screen_name", user.getScreenName());
+                i.putExtra("user_type", "friends");
                 startActivity(i);
             }
         });

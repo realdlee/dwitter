@@ -29,11 +29,13 @@ public class UserActivity extends AppCompatActivity {
     private ArrayList<User> users;
     private UsersArrayAdapter aUsers;
     ListView lvUsers;
+    String userType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
+        userType = getIntent().getStringExtra("user_type");
         setupToolbar();
         client = TwitterApplication.getRestClient();
 
@@ -42,25 +44,47 @@ public class UserActivity extends AppCompatActivity {
         users = new ArrayList<>();
         aUsers = new UsersArrayAdapter(this, users);
         lvUsers.setAdapter(aUsers);
-
-        client.getFollowers(1, screenName, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                try {
-                    JSONArray jsonUsers = response.getJSONArray("users");
-                    users = User.fromJSONArray(jsonUsers);
-                    aUsers.addAll(users);
-                } catch (JSONException e) {
-                    e.printStackTrace();
+        if(userType.equals("followers")) {
+            client.getFollowers(1, screenName, new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    try {
+                        aUsers.clear();
+                        JSONArray jsonUsers = response.getJSONArray("users");
+                        users = User.fromJSONArray(jsonUsers);
+                        aUsers.addAll(users);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                Log.e("error", errorResponse.toString());
-                super.onFailure(statusCode, headers, throwable, errorResponse);
-            }
-        });
+                @Override
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                    Log.e("error", errorResponse.toString());
+                    super.onFailure(statusCode, headers, throwable, errorResponse);
+                }
+            });
+        } else {
+            client.getFriends(1, screenName, new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    try {
+                        aUsers.clear();
+                        JSONArray jsonUsers = response.getJSONArray("users");
+                        users = User.fromJSONArray(jsonUsers);
+                        aUsers.addAll(users);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                    Log.e("error", errorResponse.toString());
+                    super.onFailure(statusCode, headers, throwable, errorResponse);
+                }
+            });
+        }
     }
 
     public void setupToolbar() {
@@ -69,7 +93,7 @@ public class UserActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
-        mTitle.setText("Followers");
+        mTitle.setText(userType);
     }
 
     @Override
