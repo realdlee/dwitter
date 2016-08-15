@@ -1,5 +1,6 @@
 package com.codepath.apps.dwitter.activities;
 
+
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +19,8 @@ import com.codepath.apps.dwitter.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONObject;
+
+import java.text.DecimalFormat;
 
 import cz.msebera.android.httpclient.Header;
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
@@ -61,6 +64,8 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void populateProfileHeader(User user) {
+        DecimalFormat formatter = new DecimalFormat("#,###,###");
+
         TextView tvName = (TextView) findViewById(R.id.tvName);
         TextView tvTagline = (TextView) findViewById(R.id.tvTagline);
         TextView tvFollowers = (TextView) findViewById(R.id.tvFollowers);
@@ -68,8 +73,8 @@ public class ProfileActivity extends AppCompatActivity {
         ImageView ivProfileImage = (ImageView) findViewById(R.id.ivProfileImage);
         tvName.setText(user.getName());
         tvTagline.setText(user.getTagline());
-        tvFollowers.setText(user.getFollowersCount() + " Followers");
-        tvFollowing.setText(user.getFollowingsCount() + " Following");
+        tvFollowers.setText(formatter.format(user.getFollowersCount()) + " Followers");
+        tvFollowing.setText(formatter.format(user.getFollowingsCount()) + " Following");
         Glide.with(this)
                 .load(user.getProfileImageUrl())
                 .bitmapTransform(new RoundedCornersTransformation(this, 3, 3))
