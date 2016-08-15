@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.astuetz.PagerSlidingTabStrip;
@@ -16,21 +18,22 @@ import com.codepath.apps.dwitter.R;
 import com.codepath.apps.dwitter.SmartFragmentStatePagerAdapter;
 import com.codepath.apps.dwitter.fragments.HomeTimelineFragment;
 import com.codepath.apps.dwitter.fragments.MentionsTimelineFragment;
+import com.codepath.apps.dwitter.fragments.TweetsListFragment;
 import com.codepath.apps.dwitter.models.Tweet;
 
 import org.parceler.Parcels;
 
-public class TimelineActivity extends AppCompatActivity {
+public class TimelineActivity extends AppCompatActivity implements TweetsListFragment.OnItemSelectedListener {
     private final int REQUEST_CODE = 20;
     private TweetsPagerAdapter adapterViewPager;
     HomeTimelineFragment fragmentHomeTimeline;
+    MenuItem miActionProgressItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
         setupToolbar();
-
         //get viewpager
         ViewPager vpPager = (ViewPager) findViewById(R.id.viewpager);
         //set viewpager adapter for the pager
@@ -112,5 +115,27 @@ public class TimelineActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        // Store instance of the menu item containing progress
+        miActionProgressItem = menu.findItem(R.id.miActionProgress);
+        // Extract the action-view from the menu item
+        ProgressBar v = (ProgressBar) MenuItemCompat.getActionView(miActionProgressItem);
+        // Return to finish
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    public void showProgressBar() {
+        if (miActionProgressItem != null) {
+            miActionProgressItem.setVisible(true);
+        }
+    }
+
+    public void hideProgressBar() {
+        if (miActionProgressItem != null) {
+            miActionProgressItem.setVisible(false);
+        }
     }
 }

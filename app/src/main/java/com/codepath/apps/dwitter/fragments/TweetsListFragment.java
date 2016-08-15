@@ -1,11 +1,12 @@
 package com.codepath.apps.dwitter.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -28,6 +29,8 @@ public abstract class TweetsListFragment extends Fragment {
     private final int REQUEST_CODE = 20;
     //    private RecyclerView rvTweets;
     ListView lvTweets;
+    MenuItem miActionProgressItem;
+    private OnItemSelectedListener listener;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -130,4 +133,31 @@ public abstract class TweetsListFragment extends Fragment {
 //    public TweetsArrayAdapter getAdapter() {
 //        return aTweets;
 //    }
+
+    //    // Define the events that the fragment will use to communicate
+    public interface OnItemSelectedListener {
+        public void showProgressBar();
+        public void hideProgressBar();
+    }
+
+    // Store the listener (activity) that will have events fired once the fragment is attached
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnItemSelectedListener) {
+            listener = (OnItemSelectedListener) context;
+        } else {
+            throw new ClassCastException(context.toString()
+                    + " must implement MyListFragment.OnItemSelectedListener");
+        }
+    }
+
+    // Now we can fire the event when the user selects something in the fragment
+    public void showProgressBar() {
+        listener.showProgressBar();
+    }
+
+    public void hideProgressBar() {
+        listener.hideProgressBar();
+    }
 }

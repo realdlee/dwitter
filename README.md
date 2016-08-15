@@ -56,6 +56,8 @@ Time spent: **27** hours spent in total
   mentions, user) by scrolling to the bottom (1 point)
 - [x] Optional: Stretch: Use Parcelable instead of Serializable using the
   popular Parceler library.
+- [x] Optional: When a network request is sent, user sees an indeterminate
+  progress indicator
 
 ##Walkthrough of all user stories:
 <img src='https://github.com/realdlee/Dwitter/blob/master/walkthrough3.gif'

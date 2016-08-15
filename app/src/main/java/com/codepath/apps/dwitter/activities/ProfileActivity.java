@@ -4,18 +4,22 @@ package com.codepath.apps.dwitter.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.codepath.apps.dwitter.R;
 import com.codepath.apps.dwitter.TwitterApplication;
 import com.codepath.apps.dwitter.TwitterClient;
+import com.codepath.apps.dwitter.fragments.TweetsListFragment;
 import com.codepath.apps.dwitter.fragments.UserTimelineFragment;
 import com.codepath.apps.dwitter.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -27,7 +31,7 @@ import java.text.DecimalFormat;
 import cz.msebera.android.httpclient.Header;
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity implements TweetsListFragment.OnItemSelectedListener {
     TwitterClient client;
     User user;
     TextView mTitle;
@@ -36,6 +40,7 @@ public class ProfileActivity extends AppCompatActivity {
     TextView tvFollowers;
     TextView tvFollowing;
     ImageView ivProfileImage;
+    MenuItem miActionProgressItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,6 +126,29 @@ public class ProfileActivity extends AppCompatActivity {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        miActionProgressItem = menu.findItem(R.id.miActionProgress);
+        if(miActionProgressItem != null) {
+            ProgressBar v = (ProgressBar) MenuItemCompat.getActionView(miActionProgressItem);
+        }
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public void showProgressBar() {
+        if (miActionProgressItem != null) {
+            miActionProgressItem.setVisible(true);
+        }
+    }
+
+    @Override
+    public void hideProgressBar() {
+        if (miActionProgressItem != null) {
+            miActionProgressItem.setVisible(false);
         }
     }
 }

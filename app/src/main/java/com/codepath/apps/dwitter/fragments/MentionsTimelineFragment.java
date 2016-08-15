@@ -27,15 +27,18 @@ public class MentionsTimelineFragment extends TweetsListFragment {
     }
 
     public void populateTimeline(int page) {
+        showProgressBar();
         client.getMentionsTimeline(page, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                hideProgressBar();
                 addAll(Tweet.fromJSONArray(response));
                 super.onSuccess(statusCode, headers, response);
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                hideProgressBar();
                 super.onFailure(statusCode, headers, throwable, errorResponse);
             }
         });
